@@ -1,0 +1,22 @@
+---
+layout: body
+---
+
+{% assign hide_title_is_empty = page.hide_title | is_empty %}
+{% if hide_title_is_empty %}
+<header class="section section--header">
+  <div class="container container--lg">
+    <h1 class="section__title line-top">{{ page.title }}</h1>
+    {% assign subtitle_is_not_empty = page.subtitle | is_not_empty %}
+    {% if subtitle_is_not_empty %}
+    <p class="section__subtitle">{{ page.subtitle }}</p>
+    {% endif %}
+  </div>
+</header>
+{% endif %}
+
+{% for section in page.sections %}
+  
+  {% assign component = section.type | append: ".html" %}
+  {% include {{ component }} section=section site=site %}
+{% endfor %}

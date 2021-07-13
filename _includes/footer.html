@@ -1,0 +1,25 @@
+<footer id="colophon" class="site-footer">
+  <div class="container container--lg">
+    <div class="site-footer__inside">
+      <div class="site-footer__info">
+        {% assign content_is_not_empty = site.data.config.footer.content | is_not_empty %}
+        {% if content_is_not_empty %}
+        <span class="site-footer__copyright">{{ site.data.config.footer.content }}</span>
+        {% endif %}
+        {% for action in site.data.config.footer.links %}
+          
+          {% include action_link.html action=action %}
+        {% endfor %}
+      </div>
+      {% assign has_social_is_not_empty = site.data.config.footer.has_social | is_not_empty %}
+      {% if has_social_is_not_empty %}
+      <div class="site-footer__social">
+        {% for action in site.data.config.footer.social_links %}
+          
+          {% include action.html action=action %}
+        {% endfor %}
+      </div>
+      {% endif %}
+    </div>
+  </div>
+</footer>

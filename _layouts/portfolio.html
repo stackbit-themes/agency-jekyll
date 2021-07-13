@@ -1,0 +1,44 @@
+---
+layout: body
+---
+
+{% assign layout_style = page.layout_style | default: 'mosaic' %}
+
+<header class="section section--header{% assign hide_title_is_not_empty = page.hide_title | is_not_empty %}{% if hide_title_is_not_empty %} screen-reader-text{% endif %}">
+  <div class="container container--lg">
+    <h1 class="section__title line-top">{{ page.title }}</h1>
+    {% assign subtitle_is_not_empty = page.subtitle | is_not_empty %}
+    {% if subtitle_is_not_empty %}
+    <p class="section__subtitle">{{ page.subtitle }}</p>
+    {% endif %}
+  </div>
+</header>
+
+<div class="section section--portfolio">
+  <div class="container container--lg">
+    <div class="grid portfolio-feed portfolio-feed--{{ layout_style }}">
+      {% assign projects_sorted = '/portfolio' | get_pages | sort: 'date' | reverse %}
+      {% for project in projects_sorted %}
+      <article class="cell project-card">
+        <a href="{{ project.url | relative_url }}" class="project-card__link">
+          {% assign thumb_image_is_not_empty = project.thumb_image | is_not_empty %}
+          {% if thumb_image_is_not_empty %}
+          <div class="project-card__image">
+            <img src="{{ project.thumb_image | relative_url }}" alt="{{ project.thumb_image_alt }}" />
+          </div>
+          {% endif %}
+          <header class="project-card__header">
+            <h2 class="project-card__title">{{ project.title }}</h2>
+            {% assign subtitle_is_not_empty = project.subtitle | is_not_empty %}
+            {% if subtitle_is_not_empty %}
+            <div class="project-card__subtitle">
+              {{ project.subtitle }}
+            </div>
+            {% endif %}
+          </header>
+        </a>
+      </article>
+      {% endfor %}
+    </div>
+  </div>
+</div>

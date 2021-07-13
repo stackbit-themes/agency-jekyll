@@ -1,0 +1,21 @@
+{% assign post = include.post_page %}
+<article class="cell post-card">
+  {% assign thumb_image_is_not_empty = post.thumb_image | is_not_empty %}
+  {% if thumb_image_is_not_empty %}
+  <a class="post-card__image" href="{{ post.url | relative_url }}">
+    <img src="{{ post.thumb_image | relative_url }}" alt="{{ post.thumb_image_alt }}" />
+  </a>
+  {% endif %}
+  <header class="post-card__header">
+    <h3 class="post-card__title"><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h3>
+    <div class="post-card__meta">
+      <time class="published" datetime="{{ post.date | date: '%Y-%m-%d %H:%M' }}">{{ post.date | date: '%B %d, %Y' }}</time>
+    </div>
+  </header>
+  {% assign excerpt_is_not_empty = post.excerpt | is_not_empty %}
+  {% if excerpt_is_not_empty %}
+  <p class="post-card__body">
+    {{ post.excerpt }}
+  </p>
+  {% endif %}
+</article>

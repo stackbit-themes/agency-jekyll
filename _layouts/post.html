@@ -1,0 +1,64 @@
+---
+layout: body
+---
+
+<article class="post">
+  <header class="post__header">
+    <div class="container container--md">
+      <h1 class="post__title line-top">{{ page.title }}</h1>
+      {% assign subtitle_is_not_empty = page.subtitle | is_not_empty %}
+      {% if subtitle_is_not_empty %}
+      <div class="post__subtitle">
+        {{ page.subtitle }}
+      </div>
+      {% endif %}
+    </div>
+  </header>
+  {% assign image_is_not_empty = page.image | is_not_empty %}
+  {% if image_is_not_empty %}
+  <div class="post__image">
+    <div class="container container--lg">
+      <img src="{{ page.image | relative_url }}" alt="{{ page.image_alt }}" />
+    </div>
+  </div>
+  {% endif %}
+  <div class="post__body text-block">
+    <div class="container container--md">
+      {{ content }}
+    </div>
+  </div>
+  <footer class="post__meta">
+    <div class="container container--md">
+      Posted on <time class="published" datetime="{{ page.date | date: '%Y-%m-%d %H:%M' }}">{{ page.date | date: '%B %d, %Y' }}</time>
+    </div>
+  </footer>
+</article>
+
+{% assign posts_sorted = '/blog' | get_pages | sort: 'date' | reverse %}
+{% for post_item in posts_sorted %}
+  {% if post_item.url == page.url %}
+    {% assign curr_index = forloop.index0 %}
+    {% assign next_index = curr_index | plus: 1 %}
+    {% assign prev_index = curr_index | minus: 1 %}
+    {% assign post_index_length = forloop.length | minus: 1 %}
+    {% if post_index_length > 0 %}
+    <nav class="section section--posts">
+      <div class="container container--lg">
+        <h2 class="section__title line-top">Read Next</h2>
+        <div class="grid post-feed post-feed--col-two">
+          {% if curr_index != 0 %}
+            {% assign prev_post = posts_sorted[prev_index] %}
+            
+            {% include blog_feed_item.html post_page=prev_post %}
+          {% endif %}
+          {% if curr_index < post_index_length %}
+            {% assign next_post = posts_sorted[next_index] %}
+            
+            {% include blog_feed_item.html post_page=next_post %}
+          {% endif %}
+        </div>
+      </div>
+    </nav>
+    {% endif %}
+  {% endif %}
+{% endfor %}

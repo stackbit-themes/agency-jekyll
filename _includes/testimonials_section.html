@@ -1,0 +1,38 @@
+{% assign section = include.section %}
+<section id="{{ section.section_id }}" class="section section--testimonials">
+  <div class="container container--lg">
+    {% assign title_is_not_empty = section.title | is_not_empty %}
+    {% if title_is_not_empty %}
+    <h2 class="section__title line-top">{{ section.title }}</h2>
+    {% endif %}
+    {% assign subtitle_is_not_empty = section.subtitle | is_not_empty %}
+    {% if subtitle_is_not_empty %}
+    <p class="section__subtitle">{{ section.subtitle }}</p>
+    {% endif %}
+    {% assign testimonials_is_not_empty = section.testimonials | is_not_empty %}
+    {% if testimonials_is_not_empty %}
+    <div class="grid">
+      {% for testimonial in section.testimonials %}
+      <div class="cell">
+        <blockquote class="testimonial">
+          <p class="testimonial__content">{{ testimonial.content }}</p>
+          <footer class="testimonial__footer">
+            {% assign avatar_is_not_empty = testimonial.avatar | is_not_empty %}
+            {% if avatar_is_not_empty %}
+            <img class="testimonial__avatar" src="{{ testimonial.avatar | relative_url }}" alt="{{ testimonial.avatar_alt }}">
+            {% endif %}
+            <div class="testimonial__details">
+              <div class="testimonial__author">{{ testimonial.author }}</div>
+              {% assign position_is_not_empty = testimonial.position | is_not_empty %}
+              {% if position_is_not_empty %}
+              <div class="testimonial__position">{{ testimonial.position }}</div>
+              {% endif %}
+            </div>
+          </footer>
+        </blockquote>
+      </div>
+      {% endfor %}
+    </div>
+    {% endif %}
+  </div>
+</section>
